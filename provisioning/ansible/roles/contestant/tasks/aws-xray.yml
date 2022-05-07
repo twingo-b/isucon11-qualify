@@ -1,0 +1,30 @@
+---
+# tasks file for aws-xray
+- name: "roles/contestant/tasks/aws-xray: Download X-Ray Daemon"
+  get_url:
+    url: https://s3.dualstack.us-east-2.amazonaws.com/aws-xray-assets.us-east-2/xray-daemon/aws-xray-daemon-3.x.deb
+    dest: /tmp/xray.deb
+    mode: 0755
+
+- name: "roles/contestant/tasks/aws-xray: Install Daemon"
+  become: true
+  apt:
+    deb: /tmp/xray.deb
+    state: present
+
+# For whatever reason, the .deb creates a systemd-config which sets the config dir to 0700.
+# This is too strict for the daemon to access its own config file...
+- name: "roles/contestant/tasks/aws-xray: Unbreak systemd settings"
+  lineinfile:
+    path: /lib/systemd/system/xray.service
+    regexp: ^ConfigurationDirectoryMode
+    line: ConfigurationDirectoryMode=0755
+  become: true
+
+- name: "roles/contestant/tasks/aws-xray: Start Daemon"
+  become: true
+  systemd:
+    name: xray
+    daemon_reload: true
+    enabled: true
+    state: restarted

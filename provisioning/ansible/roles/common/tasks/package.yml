@@ -40,12 +40,12 @@
     update_cache: yes
 
 
-- name: "roles/common/tasks/package: Purge Package (snapd)"
-  become: yes
-  become_user: root
-  apt:
-    name:
-    - snap
-    - snapd
-    state: absent
-    purge: yes
+# - name: "roles/common/tasks/package: Purge Package (snapd)"
+#   become: yes
+#   become_user: root
+#   apt:
+#     name:
+#     - snap
+#     - snapd
+#     state: absent
+#     purge: yes

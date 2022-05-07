@@ -85,7 +85,7 @@ func init() {
 	agent.DefaultTLSConfig.ClientCAs = certs
 	agent.DefaultTLSConfig.ClientAuth = tls.RequireAndVerifyClientCert
 	agent.DefaultTLSConfig.MinVersion = tls.VersionTLS12
-	agent.DefaultTLSConfig.InsecureSkipVerify = false
+	agent.DefaultTLSConfig.InsecureSkipVerify = true
 
 	var targetableAddressesStr string
 
